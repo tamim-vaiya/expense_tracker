@@ -7,3 +7,6 @@ expense_tracker_venv/
 
 # Ignore SQLite DB
 db.sqlite3
+
+# Ignore node_modules
+node_modules
