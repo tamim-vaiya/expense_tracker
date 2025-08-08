@@ -2,7 +2,7 @@
 {% load widget_tweaks %}
 
 {% block body %}
-<div class="min-h-screen bg-gray-100 px-4 py-12">
+<div class="px-4 py-12">
   <div class="max-w-7xl mx-auto bg-white rounded-2xl shadow-xl border border-gray-200 p-10">
 
     <h1 class="text-3xl font-bold text-gray-800 text-center mb-10 select-none">Add New Expense</h1>
@@ -39,4 +39,49 @@
     </form>
   </div>
 </div>
+<div class="max-w-7xl mx-auto mt-16 px-4">
+  <div class="flex items-center justify-between mb-6">
+    <h2 class="text-2xl font-bold text-gray-800">Expenses</h2>
+  </div>
+
+  <div class="w-full overflow-x-auto bg-white shadow-md rounded-xl border border-gray-200">
+    <table class="min-w-full divide-y divide-gray-100 text-sm text-gray-800">
+      <thead class="bg-gray-100">
+        <tr>
+          <th scope="col" class="px-6 py-3 text-left font-semibold">Name</th>
+          <th scope="col" class="px-6 py-3 text-left font-semibold">Amount</th>
+          <th scope="col" class="px-6 py-3 text-left font-semibold">Date</th>
+          <th scope="col" class="px-6 py-3 text-left font-semibold">Category</th>
+          <th scope="col" class="px-6 py-3 text-center font-semibold">Edit</th>
+          <th scope="col" class="px-6 py-3 text-center font-semibold">Delete</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-100">
+        {% for expense in expenses %}
+          <tr class="hover:bg-gray-50 transition">
+            <td class="px-6 py-4">{{ expense.name }}</td>
+            <td class="px-6 py-4">${{ expense.amount }}</td>
+            <td class="px-6 py-4">{{ expense.date }}</td>
+            <td class="px-6 py-4">{{ expense.category }}</td>
+            <td class="px-6 py-4 text-center">
+              <a href="#" class="text-indigo-600 hover:text-indigo-800 font-medium" aria-label="Edit {{ expense.name }}">Edit</a>
+            </td>
+            <td class="px-6 py-4 text-center">
+              <a href="#" class="text-red-600 hover:text-red-800 font-medium" aria-label="Delete {{ expense.name }}">Delete</a>
+            </td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="6" class="px-6 py-6 text-center text-gray-400 italic">No expenses found.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+
+
+
 {% endblock body %}
