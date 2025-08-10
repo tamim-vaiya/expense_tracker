@@ -9,6 +9,25 @@
     <link rel="stylesheet" href="{% static 'dist/styles.css' %}">
 </head>
 <body class="bg-gray-100">
+
+    <nav class="bg-white shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+            <!-- Logo + Title -->
+            <div class="flex items-center space-x-2">
+                <!-- SVG Logo -->
+                <svg xmlns="http://www.w3.org/2000/svg" 
+                    class="w-8 h-8 text-indigo-600" 
+                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4m4 0c0 4.418-3.582 8-8 8S4 16.418 4 12 7.582 4 12 4s8 3.582 8 8z" />
+                </svg>
+                <a href="{% url "index" %}"><span class="text-xl font-bold text-gray-800">Expense Tracker</span></a>
+            </div>
+            </div>
+        </div>
+    </nav>
+
     {% block body %}
        
     {% endblock body %}
