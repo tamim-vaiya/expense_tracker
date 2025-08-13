@@ -40,6 +40,7 @@
     </form>
   </div>
 </div>
+
 <div class="max-w-7xl mx-auto mt-16 px-4">
   <div class="flex items-center justify-between mb-6">
     <h2 class="text-2xl font-bold text-gray-800">Expenses</h2>
@@ -121,9 +122,45 @@
                 {{ weekly_sum.amount__sum|intcomma }}
             </p>
         </div>
-
     </div>
 </div>
+
+<div class="max-w-7xl mx-auto mt-16 px-4 grid grid-cols-1 md:grid-cols-2">
+    <div>
+        <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-200">
+            
+            <!-- Header -->
+            <div class="flex items-center justify-between bg-gradient-to-r from-blue-500 to-indigo-500 px-6 py-4">
+                <h2 class="text-white text-xl font-semibold">
+                    Past 30 Days - Sum of Expenses
+                </h2>
+                <span class="text-white/80 text-sm">
+                    {{ daily_sums|length }} days recorded
+                </span>
+            </div>
+    
+            <!-- Table -->
+            <div class="divide-y divide-gray-200">
+                {% for daily_sum in daily_sums %}
+                    <div class="flex justify-between items-center px-6 py-4 
+                                {% cycle 'bg-gray-50' '' %} hover:bg-gray-100 transition">
+                        <div>
+                            <span class="text-gray-800 font-medium">{{ daily_sum.date }}</span>
+                        </div>
+                        <div class="text-green-600 font-bold text-lg">
+                            ${{ daily_sum.sum|intcomma }}
+                        </div>
+                    </div>
+                {% empty %}
+                    <div class="px-6 py-4 text-gray-500 italic">
+                        No expenses recorded in the last 30 days.
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
 
