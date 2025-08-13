@@ -139,7 +139,7 @@
         </div>
 
         <!-- Table -->
-        <div class="divide-y divide-gray-200">
+        <div id="past-30-days-sum-table" class="divide-y divide-gray-200">
             {% for daily_sum in daily_sums %}
                 <div class="flex justify-between items-center px-6 py-4 
                             {% cycle 'bg-gray-50' '' %} hover:bg-gray-100 transition">
@@ -161,7 +161,7 @@
     <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-200">
         
         <!-- Header -->
-        <div class="flex items-center justify-between bg-gradient-to-r from-blue-500 to-indigo-500 px-6 py-4">
+        <div class="flex items-center justify-between bg-gradient-to-r from-purple-500 to-pink-500 px-6 py-4">
             <h2 class="text-white text-xl font-semibold">
                 Categorical - Sum of Expenses
             </h2>
@@ -171,7 +171,7 @@
         </div>
 
         <!-- Table -->
-        <div class="divide-y divide-gray-200">
+        <div id="cat-sum-table" class="divide-y divide-gray-200">
             {% for categorical_sum in categorical_sums %}
                 <div class="flex justify-between items-center px-6 py-4 
                             {% cycle 'bg-gray-50' '' %} hover:bg-gray-100 transition">
@@ -191,9 +191,111 @@
     </div>
 </div>
 
+<div class="max-w-7xl mx-auto mt-16 px-4 grid grid-cols-1 md:grid-cols-2 gap-5">
+    
+    <!-- Pie Chart 1 -->
+    <div class="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
+        <div class="flex items-center justify-between bg-gradient-to-r from-blue-500 to-indigo-500 px-6 py-4">
+            <h2 class="text-white text-xl font-semibold">Past 30 Days - Pie Chart</h2>
+        </div>
+        <div class="p-6">
+            <canvas id="past30DaysPieChart"></canvas>
+        </div>
+    </div>
+
+    <!-- Pie Chart 2 -->
+    <div class="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
+        <div class="flex items-center justify-between bg-gradient-to-r from-purple-500 to-pink-500 px-6 py-4">
+            <h2 class="text-white text-xl font-semibold">Categorical - Pie Chart</h2>
+        </div>
+        <div class="p-6">
+            <canvas id="categoricalPieChart"></canvas>
+        </div>
+    </div>
+
+</div>
 
 
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+
+    document.addEventListener('DOMContentLoaded', () => {
+
+        const cats = [];
+        const cat_sums = [];
+
+        // Select all the rows inside the table
+        const cat_rows = document.querySelectorAll('#cat-sum-table div.flex');
+
+        cat_rows.forEach(row => {
+            const categorySpan = row.querySelector('div:first-child span');
+            const sumDiv = row.querySelector('div:nth-child(2)');
+
+            if (categorySpan && sumDiv) {
+                cats.push(categorySpan.textContent.trim());
+                // Remove $ and commas, convert to number
+                cat_sums.push(Number(sumDiv.textContent.replace(/[$,]/g, '')));
+            }
+        });
+        
+        const past30days = [];
+        const past30days_sums = [];
+
+        document.querySelectorAll('#past-30-days-sum-table > div.flex').forEach(row => {
+            // Select the two divs inside this row explicitly
+            const divs = row.querySelectorAll(':scope > div');
+            if (divs.length < 2) return; // skip invalid rows
+
+            const dateSpan = divs[0].querySelector('span');
+            const sumDiv = divs[1];
+
+            if (dateSpan && sumDiv) {
+                past30days.push(dateSpan.textContent.trim());
+                past30days_sums.push(Number(sumDiv.textContent.replace(/[$,]/g, '')));
+            }
+        });
+
+    
+        new Chart(document.getElementById('past30DaysPieChart'), {
+            type: 'line',
+            data: {
+                labels: past30days, // x-axis
+                datasets: [{
+                    label: 'Expenses',
+                    data: past30days_sums, // y-axis
+                    borderColor: '#3b82f6', // line color
+                    backgroundColor: 'rgba(59, 130, 246, 0.2)', // fill under line
+                    fill: true,
+                    tension: 0.3 // smooth line
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    x: { title: { display: true, text: 'Date' } },
+                    y: { title: { display: true, text: 'Amount ($)' } }
+                }
+            }
+        });
+
+    
+        new Chart(document.getElementById('categoricalPieChart'), {
+            type: 'pie',
+            data: {
+                labels: cats,
+                datasets: [{
+                    data: cat_sums,
+                    backgroundColor: ['#ec4899', '#f472b6', '#f9a8d4', '#fbcfe8', '#fdf2f8']
+                }]
+            }
+        });
+    });
+
+</script>
 
 
 
