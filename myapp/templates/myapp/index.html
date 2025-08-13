@@ -125,38 +125,68 @@
     </div>
 </div>
 
-<div class="max-w-7xl mx-auto mt-16 px-4 grid grid-cols-1 md:grid-cols-2">
-    <div>
-        <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-200">
-            
-            <!-- Header -->
-            <div class="flex items-center justify-between bg-gradient-to-r from-blue-500 to-indigo-500 px-6 py-4">
-                <h2 class="text-white text-xl font-semibold">
-                    Past 30 Days - Sum of Expenses
-                </h2>
-                <span class="text-white/80 text-sm">
-                    {{ daily_sums|length }} days recorded
-                </span>
-            </div>
+<div class="max-w-7xl mx-auto mt-16 px-4 grid grid-cols-1 md:grid-cols-2 gap-5">
+    <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-200">
+        
+        <!-- Header -->
+        <div class="flex items-center justify-between bg-gradient-to-r from-blue-500 to-indigo-500 px-6 py-4">
+            <h2 class="text-white text-xl font-semibold">
+                Past 30 Days - Sum of Expenses
+            </h2>
+            <span class="text-white/80 text-sm">
+                {{ daily_sums|length }} days recorded
+            </span>
+        </div>
+
+        <!-- Table -->
+        <div class="divide-y divide-gray-200">
+            {% for daily_sum in daily_sums %}
+                <div class="flex justify-between items-center px-6 py-4 
+                            {% cycle 'bg-gray-50' '' %} hover:bg-gray-100 transition">
+                    <div>
+                        <span class="text-gray-800 font-medium">{{ daily_sum.date }}</span>
+                    </div>
+                    <div class="text-green-600 font-bold text-lg">
+                        ${{ daily_sum.sum|intcomma }}
+                    </div>
+                </div>
+            {% empty %}
+                <div class="px-6 py-4 text-gray-500 italic">
+                    No expenses recorded in the last 30 days.
+                </div>
+            {% endfor %}
+        </div>
+    </div>
     
-            <!-- Table -->
-            <div class="divide-y divide-gray-200">
-                {% for daily_sum in daily_sums %}
-                    <div class="flex justify-between items-center px-6 py-4 
-                                {% cycle 'bg-gray-50' '' %} hover:bg-gray-100 transition">
-                        <div>
-                            <span class="text-gray-800 font-medium">{{ daily_sum.date }}</span>
-                        </div>
-                        <div class="text-green-600 font-bold text-lg">
-                            ${{ daily_sum.sum|intcomma }}
-                        </div>
+    <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-200">
+        
+        <!-- Header -->
+        <div class="flex items-center justify-between bg-gradient-to-r from-blue-500 to-indigo-500 px-6 py-4">
+            <h2 class="text-white text-xl font-semibold">
+                Categorical - Sum of Expenses
+            </h2>
+            <span class="text-white/80 text-sm">
+                {{ categorical_sums|length }} categories recorded
+            </span>
+        </div>
+
+        <!-- Table -->
+        <div class="divide-y divide-gray-200">
+            {% for categorical_sum in categorical_sums %}
+                <div class="flex justify-between items-center px-6 py-4 
+                            {% cycle 'bg-gray-50' '' %} hover:bg-gray-100 transition">
+                    <div>
+                        <span class="text-gray-800 font-medium">{{ categorical_sum.category }}</span>
                     </div>
-                {% empty %}
-                    <div class="px-6 py-4 text-gray-500 italic">
-                        No expenses recorded in the last 30 days.
+                    <div class="text-green-600 font-bold text-lg">
+                        ${{ categorical_sum.sum|intcomma }}
                     </div>
-                {% endfor %}
-            </div>
+                </div>
+            {% empty %}
+                <div class="px-6 py-4 text-gray-500 italic">
+                    No expenses recorded in the last 30 days.
+                </div>
+            {% endfor %}
         </div>
     </div>
 </div>

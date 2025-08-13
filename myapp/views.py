@@ -30,10 +30,12 @@ def index(request):
     weekly_sum = data.aggregate(Sum('amount'))
 
     daily_sums = Expense.objects.filter().values('date').order_by('date').annotate(sum=Sum('amount'))
-    print(daily_sums)
+
+    categorical_sums = Expense.objects.filter().values('category').order_by('category').annotate(sum=Sum('amount'))
+    print(categorical_sums)
 
     expense_form = ExpenseForm()
-    return render(request, 'myapp/index.html', {'expense_form' : expense_form, 'expenses': expenses, 'total_expenses': total_expenses, 'yearly_sum': yearly_sum, 'monthly_sum': monthly_sum,  'weekly_sum': weekly_sum, 'daily_sums': daily_sums})
+    return render(request, 'myapp/index.html', {'expense_form' : expense_form, 'expenses': expenses, 'total_expenses': total_expenses, 'yearly_sum': yearly_sum, 'monthly_sum': monthly_sum,  'weekly_sum': weekly_sum, 'daily_sums': daily_sums, 'categorical_sums': categorical_sums})
 
 def edit(request, id):
     expense = Expense.objects.get(id=id)
