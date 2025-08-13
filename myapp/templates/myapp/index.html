@@ -95,6 +95,37 @@
   </div>
 </div>
 
+<div class="max-w-7xl mx-auto mt-16 px-4">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- Last 365 Days -->
+        <div class="bg-white rounded-2xl shadow-md p-6 text-center">
+            <p class="text-gray-600 text-lg font-semibold">Last 365 days</p>
+            <p class="text-3xl font-bold text-green-600 mt-2">
+                {{ yearly_sum.amount__sum|intcomma }}
+            </p>
+        </div>
+
+        <!-- Last 30 Days -->
+        <div class="bg-white rounded-2xl shadow-md p-6 text-center">
+            <p class="text-gray-600 text-lg font-semibold">Last 30 days</p>
+            <p class="text-3xl font-bold text-blue-600 mt-2">
+                {{ monthly_sum.amount__sum|intcomma }}
+            </p>
+        </div> 
+
+        <!-- Last 7 Days -->
+        <div class="bg-white rounded-2xl shadow-md p-6 text-center">
+            <p class="text-gray-600 text-lg font-semibold">Last 7 days</p>
+            <p class="text-3xl font-bold text-purple-600 mt-2">
+                {{ weekly_sum.amount__sum|intcomma }}
+            </p>
+        </div>
+
+    </div>
+</div>
+
+
 
 
 
